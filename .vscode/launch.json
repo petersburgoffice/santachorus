@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Standalone",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/SantaChorus_artefacts/Standalone/Santa Chorus.app/Contents/MacOS/Santa Chorus",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "Quick Build"
+        },
+        {
+            "name": "Debug AU in Logic Pro",
+            "type": "cppdbg", 
+            "request": "attach",
+            "program": "/Applications/Logic Pro.app/Contents/MacOS/Logic Pro",
+            "MIMode": "lldb",
+            "waitFor": true,
+            "preLaunchTask": "Quick Build"
+        }
+    ]
+}
