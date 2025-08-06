@@ -4,6 +4,8 @@ Builds/
 Builds_Universal/
 Builds_Intel/
 
+# JUCE library (using shared ../JUCE instead of local copy)
+
 # CMake
 CMakeCache.txt
 CMakeFiles/
