@@ -82,9 +82,7 @@ SaturVSTEditor::SaturVSTEditor (SaturVSTProcessor& p)
 
     // Create custom look and feel objects with specific colors
     chorusLookAndFeel = std::make_unique<CustomRotarySliderLookAndFeel>(juce::Colour(0xff00BCD4)); // Cyan/Teal
-    driveLookAndFeel = std::make_unique<CustomRotarySliderLookAndFeel>(juce::Colour(0xffFF9800)); // Orange
     mixLookAndFeel = std::make_unique<CustomRotarySliderLookAndFeel>(juce::Colour(0xff2196F3)); // Blue
-    outputLookAndFeel = std::make_unique<CustomRotarySliderLookAndFeel>(juce::Colour(0xffE0E0E0)); // Light Gray
 
     // Setup Chorus slider
     chorusSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
@@ -100,19 +98,7 @@ SaturVSTEditor::SaturVSTEditor (SaturVSTProcessor& p)
     chorusLabel.setColour(juce::Label::textColourId, juce::Colour(0xff00BCD4));
     addAndMakeVisible(chorusLabel);
 
-    // Setup Drive slider
-    driveSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    driveSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
-    driveSlider.setRange(1.0, 10.0, 0.1);
-    driveSlider.setValue(2.0);
-    driveSlider.setLookAndFeel(driveLookAndFeel.get());
-    addAndMakeVisible(driveSlider);
 
-    driveLabel.setText("DRIVE", juce::dontSendNotification);
-    driveLabel.setFont(juce::Font(14.0f, juce::Font::plain)); // Thinner font
-    driveLabel.setJustificationType(juce::Justification::centred);
-    driveLabel.setColour(juce::Label::textColourId, juce::Colour(0xffFF9800));
-    addAndMakeVisible(driveLabel);
 
     // Setup Mix slider
     mixSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
@@ -122,25 +108,13 @@ SaturVSTEditor::SaturVSTEditor (SaturVSTProcessor& p)
     mixSlider.setLookAndFeel(mixLookAndFeel.get());
     addAndMakeVisible(mixSlider);
 
-    mixLabel.setText("MIX", juce::dontSendNotification);
+    mixLabel.setText("DRY/WET", juce::dontSendNotification);
     mixLabel.setFont(juce::Font(14.0f, juce::Font::plain)); // Thinner font
     mixLabel.setJustificationType(juce::Justification::centred);
     mixLabel.setColour(juce::Label::textColourId, juce::Colour(0xff2196F3));
     addAndMakeVisible(mixLabel);
 
-    // Setup Output slider
-    outputGainSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    outputGainSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
-    outputGainSlider.setRange(0.1, 2.0, 0.01);
-    outputGainSlider.setValue(1.0);
-    outputGainSlider.setLookAndFeel(outputLookAndFeel.get());
-    addAndMakeVisible(outputGainSlider);
 
-    outputGainLabel.setText("OUTPUT", juce::dontSendNotification);
-    outputGainLabel.setFont(juce::Font(14.0f, juce::Font::plain)); // Thinner font
-    outputGainLabel.setJustificationType(juce::Justification::centred);
-    outputGainLabel.setColour(juce::Label::textColourId, juce::Colour(0xffE0E0E0));
-    addAndMakeVisible(outputGainLabel);
 
     // Setup Version label (bottom right corner)
     versionLabel.setText("v" + juce::String(PLUGIN_VERSION_STRING), juce::dontSendNotification);
@@ -153,14 +127,8 @@ SaturVSTEditor::SaturVSTEditor (SaturVSTProcessor& p)
     chorusAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
         audioProcessor.getValueTreeState(), "chorus", chorusSlider);
     
-    driveAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-        audioProcessor.getValueTreeState(), "drive", driveSlider);
-    
     mixAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
         audioProcessor.getValueTreeState(), "mix", mixSlider);
-    
-    outputGainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-        audioProcessor.getValueTreeState(), "output", outputGainSlider);
 
     // Устанавливаем размер окна точно под размер background изображения
     setSize(772, 445);
@@ -169,9 +137,7 @@ SaturVSTEditor::SaturVSTEditor (SaturVSTProcessor& p)
 SaturVSTEditor::~SaturVSTEditor()
 {
     chorusSlider.setLookAndFeel(nullptr);
-    driveSlider.setLookAndFeel(nullptr);
     mixSlider.setLookAndFeel(nullptr);
-    outputGainSlider.setLookAndFeel(nullptr);
 }
 
 void SaturVSTEditor::paint (juce::Graphics& g)
@@ -192,27 +158,19 @@ void SaturVSTEditor::paint (juce::Graphics& g)
 
 void SaturVSTEditor::resized()
 {
-    // Точное позиционирование ручек на местах из background изображения
-    const int knobSize = 92; // Размер ручек 49 пикселей
+    // Позиционирование двух ручек на background изображении
+    const int knobSize = 92;
     
-    // Координаты ручек основаны на позициях в background изображении 772x445
-    // Chorus knob (левая верхняя)
-    chorusSlider.setBounds(166, 272, knobSize, knobSize);
+    // Размещаем две ручки симметрично
+    // Chorus knob (левая)
+    chorusSlider.setBounds(225, 272, knobSize, knobSize);
     
-    // Drive knob (левая центральная) 
-    driveSlider.setBounds(285, 272, knobSize, knobSize);
+    // Dry/Wet knob (правая)
+    mixSlider.setBounds(460, 272, knobSize, knobSize);
     
-    // Mix knob (правая центральная)
-    mixSlider.setBounds(402, 272, knobSize, knobSize);
-    
-    // Output knob (правая верхняя)
-    outputGainSlider.setBounds(517, 272, knobSize, knobSize);
-    
-    // Скрываем все надписи (ставим их за пределы видимой области)
+    // Скрываем все надписи (они видны на background изображении)
     chorusLabel.setBounds(0, 0, 0, 0);
-    driveLabel.setBounds(0, 0, 0, 0);
     mixLabel.setBounds(0, 0, 0, 0);
-    outputGainLabel.setBounds(0, 0, 0, 0);
     
     // Position version label in bottom right corner
     versionLabel.setBounds(getWidth() - 80, getHeight() - 20, 75, 15);

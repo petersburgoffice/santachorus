@@ -15,16 +15,12 @@ void SaturatorEngine::prepare(double sampleRate, int samplesPerBlock, int numCha
     currentSamplesPerBlock = samplesPerBlock;
     currentNumChannels = numChannels;
 
-    // Initialize smoothed values in processing order: Chorus → Drive → Mix → Output
+    // Initialize smoothed values
     smoothedChorus.reset(sampleRate, 0.05); // 50ms ramp time
-    smoothedDrive.reset(sampleRate, 0.05);
     smoothedMix.reset(sampleRate, 0.05);
-    smoothedOutputGain.reset(sampleRate, 0.05);
 
     smoothedChorus.setCurrentAndTargetValue(chorus.load());
-    smoothedDrive.setCurrentAndTargetValue(drive.load());
     smoothedMix.setCurrentAndTargetValue(mix.load());
-    smoothedOutputGain.setCurrentAndTargetValue(outputGain.load());
     
     // Initialize advanced stereo chorus system
     juce::dsp::ProcessSpec spec;
@@ -77,9 +73,7 @@ void SaturatorEngine::processBlock(juce::AudioBuffer<float>& buffer)
     {
         // Update smoothed parameters
         smoothedChorus.setTargetValue(chorus.load());
-        smoothedDrive.setTargetValue(drive.load());
         smoothedMix.setTargetValue(mix.load());
-        smoothedOutputGain.setTargetValue(outputGain.load());
 
         for (int channel = 0; channel < numChannels; ++channel)
         {
@@ -97,11 +91,9 @@ void SaturatorEngine::processBlock(juce::AudioBuffer<float>& buffer)
                 }
 
                 const float currentChorus = smoothedChorus.getNextValue();
-                const float currentDrive = smoothedDrive.getNextValue();
                 const float currentMix = smoothedMix.getNextValue();
-                const float currentOutputGain = smoothedOutputGain.getNextValue();
 
-                // STEP 1: Apply high-quality chorus effect
+                // Apply high-quality chorus effect
                 float chorusProcessedSample = inputSample;
                 
                 if (currentChorus > 0.001f) // Only apply chorus if there's a meaningful amount
@@ -109,20 +101,14 @@ void SaturatorEngine::processBlock(juce::AudioBuffer<float>& buffer)
                     chorusProcessedSample = processHighQualityChorus(inputSample, channel, currentChorus);
                 }
 
-                // STEP 2: Apply drive/saturation after chorus
-                const float saturatedSample = saturate(chorusProcessedSample, currentDrive);
-
-                // STEP 3: Mix wet and dry signals  
-                const float mixedSample = inputSample * (1.0f - currentMix) + saturatedSample * currentMix;
-
-                // STEP 4: Apply output gain
-                float outputSample = mixedSample * currentOutputGain;
+                // Mix dry and wet (chorus) signals  
+                float outputSample = inputSample * (1.0f - currentMix) + chorusProcessedSample * currentMix;
                 
                 // Clamp to reasonable range and ensure finite
                 if (!std::isfinite(outputSample))
                     outputSample = 0.0f;
                 else
-                    outputSample = juce::jlimit(-10.0f, 10.0f, outputSample);
+                    outputSample = juce::jlimit(-1.0f, 1.0f, outputSample);
 
                 channelData[sample] = outputSample;
             }
@@ -241,45 +227,9 @@ void SaturatorEngine::setChorus(float newChorus)
     chorus.store(juce::jlimit(0.0f, 1.0f, newChorus));
 }
 
-void SaturatorEngine::setDrive(float newDrive)
-{
-    drive.store(juce::jlimit(1.0f, 10.0f, newDrive));
-}
-
 void SaturatorEngine::setMix(float newMix)
 {
     mix.store(juce::jlimit(0.0f, 1.0f, newMix));
 }
 
-void SaturatorEngine::setOutputGain(float newGain)
-{
-    outputGain.store(juce::jlimit(0.1f, 2.0f, newGain));
-}
-
-float SaturatorEngine::saturate(float input, float drive)
-{
-    // Use tanh saturation as primary algorithm
-    return tanhSaturation(input, drive);
-}
-
-float SaturatorEngine::tanhSaturation(float input, float drive)
-{
-    // Apply drive and tanh saturation
-    const float drivenInput = input * drive;
-    return std::tanh(drivenInput) / drive; // Compensate for drive to maintain roughly same output level
-}
-
-float SaturatorEngine::softClipping(float input, float drive)
-{
-    // Soft clipping algorithm
-    const float drivenInput = input * drive;
-    
-    if (std::abs(drivenInput) < 0.33f)
-        return drivenInput;
-    else if (std::abs(drivenInput) < 0.66f)
-        return juce::jmax(-0.66f, juce::jmin(0.66f, drivenInput)) * (2.0f - std::abs(drivenInput) * 3.0f);
-    else
-        return drivenInput > 0.0f ? 0.66f : -0.66f;
-    
-    return drivenInput / drive; // Compensate for drive
-} 
+ 

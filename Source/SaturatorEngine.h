@@ -12,17 +12,11 @@ public:
     void prepare(double sampleRate, int samplesPerBlock, int numChannels);
     void processBlock(juce::AudioBuffer<float>& buffer);
 
-    // Parameter setters in new processing order: Chorus → Drive → Mix → Output
+    // Parameter setters: Chorus and Dry/Wet mix
     void setChorus(float newChorus);
-    void setDrive(float newDrive);
     void setMix(float newMix);
-    void setOutputGain(float newGain);
 
 private:
-    // Saturation algorithms
-    float saturate(float input, float drive);
-    float tanhSaturation(float input, float drive);
-    float softClipping(float input, float drive);
 
     // High-quality chorus processing (based on professional implementations)
     struct ChorusChannel
@@ -61,22 +55,18 @@ private:
     // DC blocking filter
     float dcBlocker(float inputSample, int channel);
 
-    // Parameters in processing order
-    std::atomic<float> chorus{ 0.0f };
-    std::atomic<float> drive{ 2.0f };
+    // Parameters
+    std::atomic<float> chorus{ 0.5f };
     std::atomic<float> mix{ 0.5f };
-    std::atomic<float> outputGain{ 1.0f };
 
     // Processing variables
     double currentSampleRate = 44100.0;
     int currentSamplesPerBlock = 512;
     int currentNumChannels = 2;
 
-    // Smoothed parameters to avoid zipper noise (in processing order)
+    // Smoothed parameters to avoid zipper noise
     juce::SmoothedValue<float> smoothedChorus;
-    juce::SmoothedValue<float> smoothedDrive;
     juce::SmoothedValue<float> smoothedMix;
-    juce::SmoothedValue<float> smoothedOutputGain;
     
     // Professional chorus parameters (based on high-quality implementations)
     static constexpr int maxDelayInSamples = 1764;  // 40ms at 44.1kHz

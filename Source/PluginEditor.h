@@ -33,30 +33,20 @@ private:
     // Helper function for drawing signal flow arrows
     void drawArrow(juce::Graphics& g, int x1, int y, int x2, int yEnd);
 
-    // UI Components in signal flow order: Chorus → Drive → Mix → Output
+    // UI Components: Chorus and Dry/Wet
     juce::Slider chorusSlider;
     juce::Label chorusLabel;
     
-    juce::Slider driveSlider;
-    juce::Label driveLabel;
-    
     juce::Slider mixSlider;
     juce::Label mixLabel;
-    
-    juce::Slider outputGainSlider;
-    juce::Label outputGainLabel;
 
-    // Attachments for parameters in processing order
+    // Attachments for parameters
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> chorusAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> driveAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> mixAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> outputGainAttachment;
 
     // Custom look and feel objects
     std::unique_ptr<CustomRotarySliderLookAndFeel> chorusLookAndFeel;
-    std::unique_ptr<CustomRotarySliderLookAndFeel> driveLookAndFeel;
     std::unique_ptr<CustomRotarySliderLookAndFeel> mixLookAndFeel;
-    std::unique_ptr<CustomRotarySliderLookAndFeel> outputLookAndFeel;
 
     // Background image
     juce::Image backgroundImage;

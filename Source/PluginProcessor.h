@@ -45,11 +45,9 @@ private:
     SaturatorEngine saturatorEngine;
     juce::AudioProcessorValueTreeState valueTreeState;
     
-    // Parameters in processing order: Chorus → Drive → Mix → Output
+    // Parameters: Chorus and Dry/Wet mix
     std::atomic<float>* chorusParameter = nullptr;
-    std::atomic<float>* driveParameter = nullptr;
     std::atomic<float>* mixParameter = nullptr;
-    std::atomic<float>* outputGainParameter = nullptr;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SaturVSTProcessor)
 }; 

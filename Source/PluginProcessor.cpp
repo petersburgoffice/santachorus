@@ -16,30 +16,21 @@ SaturVSTProcessor::SaturVSTProcessor()
         juce::AudioProcessorValueTreeState::ParameterLayout{
             std::make_unique<juce::AudioParameterFloat>(
                 "chorus", "Chorus", 
-                juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.0f),
-            std::make_unique<juce::AudioParameterFloat>(
-                "drive", "Drive", 
-                juce::NormalisableRange<float>(1.0f, 10.0f, 0.1f), 2.0f),
-            std::make_unique<juce::AudioParameterFloat>(
-                "mix", "Mix", 
                 juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.5f),
             std::make_unique<juce::AudioParameterFloat>(
-                "output", "Output Gain", 
-                juce::NormalisableRange<float>(0.1f, 2.0f, 0.01f), 1.0f)
+                "mix", "Dry/Wet", 
+                juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.5f)
         })
 {
-    // Use getRawParameterValue instead of getParameter + dynamic_cast
-    // Initialize parameters in processing order: Chorus → Drive → Mix → Output
+    // Initialize parameters: Chorus and Dry/Wet mix
     chorusParameter = valueTreeState.getRawParameterValue("chorus");
-    driveParameter = valueTreeState.getRawParameterValue("drive");
     mixParameter = valueTreeState.getRawParameterValue("mix");
-    outputGainParameter = valueTreeState.getRawParameterValue("output");
     
     // Safety check
-    if (!chorusParameter || !driveParameter || !mixParameter || !outputGainParameter)
+    if (!chorusParameter || !mixParameter)
     {
         // Log error - parameters not found!
-        juce::Logger::writeToLog("ERROR: Failed to initialize parameters in SaturVSTProcessor!");
+        juce::Logger::writeToLog("ERROR: Failed to initialize parameters in SantaChorus!");
     }
 }
 
@@ -147,15 +138,13 @@ void SaturVSTProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::Mi
         buffer.clear (i, 0, buffer.getNumSamples());
 
     // Safety check for parameters before accessing them
-    if (chorusParameter && driveParameter && mixParameter && outputGainParameter)
+    if (chorusParameter && mixParameter)
     {
         try
         {
-            // Update parameters in processing order: Chorus → Drive → Mix → Output
+            // Update parameters: Chorus and Dry/Wet mix
             saturatorEngine.setChorus(chorusParameter->load());
-            saturatorEngine.setDrive(driveParameter->load());
             saturatorEngine.setMix(mixParameter->load());
-            saturatorEngine.setOutputGain(outputGainParameter->load());
 
             // Process audio
             saturatorEngine.processBlock(buffer);
