@@ -5,6 +5,22 @@ project(SantaChorus VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Читаем версию из файла (версия управляется через increment_version.sh)
+file(STRINGS ${CMAKE_SOURCE_DIR}/version.txt VERSION_STRING)
+string(REPLACE "." ";" VERSION_LIST ${VERSION_STRING})
+list(GET VERSION_LIST 0 VERSION_MAJOR)
+list(GET VERSION_LIST 1 VERSION_MINOR)
+list(GET VERSION_LIST 2 VERSION_BUILD)
+
+message(STATUS "Version configured: ${VERSION_STRING}")
+
+# Генерируем Version.h из шаблона
+configure_file(
+    ${CMAKE_SOURCE_DIR}/Source/Version.h.in
+    ${CMAKE_SOURCE_DIR}/Source/Version.h
+    @ONLY
+)
+
 # Add JUCE from common location
 add_subdirectory(../JUCE ${CMAKE_BINARY_DIR}/JUCE)
 

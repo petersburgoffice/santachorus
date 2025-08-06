@@ -56,6 +56,10 @@ juce_binarydata_*/
 *.tmp
 *.temp
 
+# Language server caches (clangd, etc.)
+.cache/
+*.idx
+
 # macOS
 *.dylib
 
@@ -68,7 +72,7 @@ juce_binarydata_*/
 *.vcxproj*
 *.sln
 
-# Version system - track version.txt but not generated Version.h
+# Version system - track version.txt and Version.h.in but not generated Version.h
 Source/Version.h
 
 # Installer temporary files

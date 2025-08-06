@@ -12,7 +12,7 @@
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",
-            "preLaunchTask": "Quick Build"
+            "preLaunchTask": "Full Build with Version Increment"
         },
         {
             "name": "Debug AU in Logic Pro",
@@ -21,7 +21,7 @@
             "program": "/Applications/Logic Pro.app/Contents/MacOS/Logic Pro",
             "MIMode": "lldb",
             "waitFor": true,
-            "preLaunchTask": "Quick Build"
+            "preLaunchTask": "Full Build with Version Increment"
         }
     ]
 }

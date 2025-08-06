@@ -2,10 +2,10 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Quick Build",
+            "label": "Full Build with Version Increment",
             "type": "shell",
             "command": "make",
-            "args": ["quick"],
+            "args": ["all"],
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -19,13 +19,13 @@
                 "clear": false
             },
             "problemMatcher": [],
-            "detail": "Quick build without version increment - deploys to AU and VST3"
+            "detail": "Full build with version increment and auto-deploy to AU and VST3"
         },
         {
-            "label": "Full Build",
+            "label": "Quick Build",
             "type": "shell",
             "command": "make",
-            "args": ["all"],
+            "args": ["quick"],
             "group": "build",
             "presentation": {
                 "echo": true,
@@ -36,7 +36,7 @@
                 "clear": false
             },
             "problemMatcher": [],
-            "detail": "Full build with version increment and deploy"
+            "detail": "Quick build without version increment (for development/testing)"
         },
         {
             "label": "Build Only",

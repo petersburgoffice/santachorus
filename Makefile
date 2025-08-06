@@ -20,15 +20,15 @@ build:
 # Установить AU плагин
 install-au:
 	@echo "📦 Installing AU plugin..."
-	@rm -rf ~/Library/Audio/Plug-Ins/Components/SantaChorus.component
-	@cp -R build/SantaChorus_artefacts/AU/SantaChorus.component ~/Library/Audio/Plug-Ins/Components/
+	@rm -rf ~/Library/Audio/Plug-Ins/Components/"Santa Chorus.component"
+	@cp -R build/SantaChorus_artefacts/AU/"Santa Chorus.component" ~/Library/Audio/Plug-Ins/Components/
 	@echo "✅ AU plugin installed!"
 
 # Установить VST3 плагин
 install-vst3:
 	@echo "📦 Installing VST3 plugin..."
-	@rm -rf ~/Library/Audio/Plug-Ins/VST3/SantaChorus.vst3
-	@cp -R build/SantaChorus_artefacts/VST3/SantaChorus.vst3 ~/Library/Audio/Plug-Ins/VST3/
+	@rm -rf ~/Library/Audio/Plug-Ins/VST3/"Santa Chorus.vst3"
+	@cp -R build/SantaChorus_artefacts/VST3/"Santa Chorus.vst3" ~/Library/Audio/Plug-Ins/VST3/
 	@echo "✅ VST3 plugin installed!"
 
 # Установить все плагины
