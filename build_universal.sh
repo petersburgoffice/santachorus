@@ -3,7 +3,7 @@
 # Build script for Universal Binary (Intel + Apple Silicon)
 # This creates a single version compatible with both architectures
 
-echo "🔧 Building Saturos Pro Universal Binary..."
+echo "🔧 Building Santa Chorus Universal Binary..."
 
 # Increment version
 if [ -f ./increment_version.sh ]; then

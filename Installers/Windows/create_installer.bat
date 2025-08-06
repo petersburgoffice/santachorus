@@ -1,6 +1,6 @@
 @echo off
 echo.
-echo 🎵 Creating Saturos Pro Windows Installer...
+echo 🎵 Creating Santa Chorus Windows Installer...
 echo.
 
 REM Check if NSIS is installed
@@ -16,7 +16,7 @@ if %errorlevel% neq 0 (
 )
 
 REM Check if VST3 plugin exists
-if not exist "..\..\build\SaturVST_artefacts\VST3\Saturos Pro.vst3" (
+if not exist "..\..\build\SantaChorus_artefacts\VST3\Santa Chorus.vst3" (
     echo ❌ Error: VST3 plugin not found
     echo 💡 Please build the plugin first using the build scripts
     echo.

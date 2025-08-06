@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Create Universal Binary installer for Saturos Pro
+# Create Universal Binary installer for Santa Chorus
 # This installer will work on both Intel and Apple Silicon Macs
 
 set -e
@@ -12,7 +12,7 @@ BUILD_DIR="$PROJECT_ROOT/Builds_Universal"
 # Get version
 VERSION=$(cat "$PROJECT_ROOT/version.txt" 2>/dev/null || echo "0.9.9")
 
-echo "🔧 Creating Universal Binary installer for Saturos Pro v$VERSION..."
+echo "🔧 Creating Universal Binary installer for Santa Chorus v$VERSION..."
 
 # Check if Universal build exists
 if [ ! -d "$BUILD_DIR" ]; then

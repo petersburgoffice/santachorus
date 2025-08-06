@@ -1,14 +1,14 @@
-; Saturos Pro Windows Installer
+; Santa Chorus Windows Installer
 ; NSIS Script for creating Windows installer
 
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
 
 ; Installer Information
-!define PRODUCT_NAME "Saturos Pro"
+!define PRODUCT_NAME "Santa Chorus"
 !define PRODUCT_VERSION "0.9.9"
 !define PRODUCT_PUBLISHER "SonicMakers"
-!define PRODUCT_WEB_SITE "https://github.com/petersburgoffice/saturos"
+!define PRODUCT_WEB_SITE "https://github.com/petersburgoffice/santachorus"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\SantaChorus"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
@@ -53,7 +53,7 @@ ShowUnInstDetails show
 ; Version Information
 VIProductVersion "${PRODUCT_VERSION}.0"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "${PRODUCT_NAME}"
-VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "Epic Fire-Themed Audio Saturation Plugin"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "Festive Holiday-Themed Audio Chorus Plugin"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "${PRODUCT_PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "© 2024 ${PRODUCT_PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "${PRODUCT_NAME} Installer"
@@ -71,16 +71,16 @@ Section "VST3 Plugin (Required)" SEC01
   SetOutPath "$INSTDIR"
   
   ; Copy VST3 plugin
-  File /r "..\..\build\SaturVST_artefacts\VST3\Saturos Pro.vst3"
+  File /r "..\..\build\SantaChorus_artefacts\VST3\Santa Chorus.vst3"
   
   ; Create uninstaller
-  WriteUninstaller "$INSTDIR\Saturos Pro Uninstaller.exe"
+  WriteUninstaller "$INSTDIR\Santa Chorus Uninstaller.exe"
   
   ; Registry entries
-  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\Saturos Pro.vst3"
+  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\Santa Chorus.vst3"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
-  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\Saturos Pro Uninstaller.exe"
-  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\Saturos Pro.vst3"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\Santa Chorus Uninstaller.exe"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\Santa Chorus.vst3"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
@@ -91,21 +91,9 @@ Section "VST3 Plugin (Required)" SEC01
   WriteRegDWORD ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "EstimatedSize" "$0"
 SectionEnd
 
-Section "Desktop Shortcut" SEC02
-  CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk" "$INSTDIR\Saturos Pro.vst3"
-SectionEnd
-
-Section "Start Menu Shortcuts" SEC03
-  CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
-  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$INSTDIR\Saturos Pro.vst3"
-  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\Saturos Pro Uninstaller.exe"
-SectionEnd
-
 ; Section descriptions
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} "The main VST3 plugin file. This is required for the plugin to work in your DAW."
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC02} "Creates a shortcut on your desktop."
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC03} "Creates shortcuts in the Start Menu."
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ; Installer Functions

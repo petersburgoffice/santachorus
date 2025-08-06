@@ -93,7 +93,7 @@ SaturVSTEditor::SaturVSTEditor (SaturVSTProcessor& p)
     addAndMakeVisible(chorusSlider);
 
     chorusLabel.setText("CHORUS", juce::dontSendNotification);
-    chorusLabel.setFont(juce::Font(14.0f, juce::Font::plain)); // Thinner font
+    chorusLabel.setFont(juce::Font(juce::FontOptions().withHeight(14.0f)));
     chorusLabel.setJustificationType(juce::Justification::centred);
     chorusLabel.setColour(juce::Label::textColourId, juce::Colour(0xff00BCD4));
     addAndMakeVisible(chorusLabel);
@@ -109,7 +109,7 @@ SaturVSTEditor::SaturVSTEditor (SaturVSTProcessor& p)
     addAndMakeVisible(mixSlider);
 
     mixLabel.setText("DRY/WET", juce::dontSendNotification);
-    mixLabel.setFont(juce::Font(14.0f, juce::Font::plain)); // Thinner font
+    mixLabel.setFont(juce::Font(juce::FontOptions().withHeight(14.0f)));
     mixLabel.setJustificationType(juce::Justification::centred);
     mixLabel.setColour(juce::Label::textColourId, juce::Colour(0xff2196F3));
     addAndMakeVisible(mixLabel);
@@ -118,7 +118,7 @@ SaturVSTEditor::SaturVSTEditor (SaturVSTProcessor& p)
 
     // Setup Version label (bottom right corner)
     versionLabel.setText("v" + juce::String(PLUGIN_VERSION_STRING), juce::dontSendNotification);
-    versionLabel.setFont(juce::Font(10.0f, juce::Font::plain)); // Small font
+    versionLabel.setFont(juce::Font(juce::FontOptions().withHeight(10.0f)));
     versionLabel.setJustificationType(juce::Justification::centredRight);
     versionLabel.setColour(juce::Label::textColourId, juce::Colour(0x80FFFFFF)); // Semi-transparent white
     addAndMakeVisible(versionLabel);
