@@ -51,7 +51,7 @@ void CustomRotarySliderLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, i
     auto shadowBounds = knobBounds.translated(1, 2);
     g.setColour(juce::Colour(0x30000000));
     g.fillEllipse(shadowBounds);
-    
+    /*
     // Knob gradient from light to dark (simulating light from top-left)
     juce::ColourGradient knobGradient(juce::Colour(0xff4a4a4a), knobBounds.getTopLeft(),
                                      juce::Colour(0xff2a2a2a), knobBounds.getBottomRight(), false);
@@ -61,7 +61,7 @@ void CustomRotarySliderLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, i
     // Knob border
     g.setColour(juce::Colour(0xff1a1a1a));
     g.drawEllipse(knobBounds, 1.0f);
-
+*/
     // Draw the pointer with consistent style
     juce::Path pointer;
     auto pointerLength = knobRadius * 0.7f;
@@ -130,8 +130,8 @@ SaturVSTEditor::SaturVSTEditor (SaturVSTProcessor& p)
     mixAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
         audioProcessor.getValueTreeState(), "mix", mixSlider);
 
-    // Устанавливаем размер окна точно под размер background изображения
-    setSize(772, 445);
+    // Устанавливаем размер окна точно под размер background изображения (769 × 398)
+    setSize(769, 398);
 }
 
 SaturVSTEditor::~SaturVSTEditor()
@@ -158,15 +158,16 @@ void SaturVSTEditor::paint (juce::Graphics& g)
 
 void SaturVSTEditor::resized()
 {
-    // Позиционирование двух ручек на background изображении
-    const int knobSize = 92;
+    // Позиционирование двух ручек на background изображении (769x398)
+    const int knobSize = 240; // Уменьшаем размер ручек пропорционально
     
-    // Размещаем две ручки симметрично
+    const int knobY = 29;
+    // Размещаем две ручки симметрично (пересчитано для нового размера)
     // Chorus knob (левая)
-    chorusSlider.setBounds(225, 272, knobSize, knobSize);
+    chorusSlider.setBounds(25, knobY, knobSize, knobSize);
     
     // Dry/Wet knob (правая)
-    mixSlider.setBounds(460, 272, knobSize, knobSize);
+    mixSlider.setBounds(509, knobY, knobSize, knobSize);
     
     // Скрываем все надписи (они видны на background изображении)
     chorusLabel.setBounds(0, 0, 0, 0);
