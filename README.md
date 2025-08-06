@@ -88,7 +88,7 @@ santachorus/
 │   ├── PluginEditor.cpp
 │   └── SaturatorEngine.cpp
 ├── Resources/           # Images and assets
-│   ├── full_bg.png     # Main background
+│   ├── full_bg_new.png     # Main background
 │   └── santa_chorus_logo.png
 ├── JUCE/               # JUCE framework (submodule)
 ├── build_dev.sh        # Development build script

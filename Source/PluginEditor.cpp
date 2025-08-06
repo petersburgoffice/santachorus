@@ -81,8 +81,8 @@ SaturVSTEditor::SaturVSTEditor (SaturVSTProcessor& p)
     backgroundImage = juce::ImageCache::getFromMemory(BinaryData::full_bg_png, BinaryData::full_bg_pngSize);
 
     // Create custom look and feel objects with specific colors
-    chorusLookAndFeel = std::make_unique<CustomRotarySliderLookAndFeel>(juce::Colour(0xff00BCD4)); // Cyan/Teal
-    mixLookAndFeel = std::make_unique<CustomRotarySliderLookAndFeel>(juce::Colour(0xff2196F3)); // Blue
+    chorusLookAndFeel = std::make_unique<CustomRotarySliderLookAndFeel>(juce::Colour(0xffc30115)); // Red
+    mixLookAndFeel = std::make_unique<CustomRotarySliderLookAndFeel>(juce::Colour(0xffc30115)); // Blue
 
     // Setup Chorus slider
     chorusSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
@@ -131,7 +131,7 @@ SaturVSTEditor::SaturVSTEditor (SaturVSTProcessor& p)
         audioProcessor.getValueTreeState(), "mix", mixSlider);
 
     // Устанавливаем размер окна точно под размер background изображения (769 × 398)
-    setSize(769, 398);
+    setSize(762, 430);
 }
 
 SaturVSTEditor::~SaturVSTEditor()
@@ -159,15 +159,15 @@ void SaturVSTEditor::paint (juce::Graphics& g)
 void SaturVSTEditor::resized()
 {
     // Позиционирование двух ручек на background изображении (769x398)
-    const int knobSize = 240; // Уменьшаем размер ручек пропорционально
+    const int knobSize = 146; // размер ручек 
     
-    const int knobY = 29;
+    const int knobY = 120;
     // Размещаем две ручки симметрично (пересчитано для нового размера)
     // Chorus knob (левая)
-    chorusSlider.setBounds(25, knobY, knobSize, knobSize);
+    chorusSlider.setBounds(174, knobY, knobSize, knobSize);
     
     // Dry/Wet knob (правая)
-    mixSlider.setBounds(509, knobY, knobSize, knobSize);
+    mixSlider.setBounds(443, knobY, knobSize, knobSize);
     
     // Скрываем все надписи (они видны на background изображении)
     chorusLabel.setBounds(0, 0, 0, 0);
