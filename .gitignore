@@ -1,0 +1,78 @@
+# Build directories
+build/
+Builds/
+Builds_Universal/
+Builds_Intel/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Visual Studio
+*.vcxproj.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Xcode
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+
+# JUCE generated files
+JuceLibraryCode/
+juce_binarydata_*/
+
+# Plugin builds
+*.component/
+*.vst3/
+*.vst/
+*.au/
+
+# Temporary files
+*.tmp
+*.temp
+
+# macOS
+*.dylib
+
+# Windows
+*.dll
+*.exe
+*.pdb
+
+*.xcodeproj/
+*.vcxproj*
+*.sln
+
+# Version system - track version.txt but not generated Version.h
+Source/Version.h
+
+# Installer temporary files
+Installers/macOS/temp_installer/
+Installers/Windows/santa_chorus_installer_temp.nsi
+
+# Keep the actual installer files (comment out if you don't want to track them)
+# Installers/**/*.pkg
+# Installers/**/*.exe 

@@ -1,0 +1,3 @@
+#!/bin/bash
+# Короткий алиас для build_dev.sh
+./build_dev.sh "$@" 
